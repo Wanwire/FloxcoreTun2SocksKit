@@ -1,0 +1,347 @@
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.2/MakefileFramework b/thirdparty/hev-socks5-tunnel-2.6.2/MakefileFramework
+new file mode 100644
+index 0000000..23cd191
+--- /dev/null
++++ b/thirdparty/hev-socks5-tunnel-2.6.2/MakefileFramework
+@@ -0,0 +1,286 @@
++
++ARCHS ?= arm64
++EFFECTIVE_PLATFORM_NAME ?=
++PLATFORM_NAME ?= macosx
++TARGET_DEVICE_PLATFORM_NAME ?=
++SDKROOT ?= $(shell xcrun --sdk $(PLATFORM_NAME) --show-sdk-path)
++CONFIGURATION_BUILD_DIR ?= $(CURDIR)/out
++CONFIGURATION_TEMP_DIR ?= $(CURDIR)/.tmp
++DESTDIR ?= $(CONFIGURATION_BUILD_DIR)
++BUILDDIR ?= $(CONFIGURATION_TEMP_DIR)/build
++LIPO ?= lipo
++
++build: detect_platform
++
++$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a: export SDKROOT := $(shell xcrun --sdk iphoneos --show-sdk-path)
++$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a: export PP := xcrun --sdk iphoneos --toolchain iphoneos clang
++$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a: export CC := xcrun --sdk iphoneos --toolchain iphoneos clang
++$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a: export CFLAGS := -miphoneos-version-min=16.0 -isysroot $(SDKROOT) -arch arm64
++$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a: export LFLAGS := -arch arm64 -Wl,-Bsymbolic-functions
++$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a:
++	make static -j 8
++	mkdir -p $(BUILDDIR)
++	libtool -static -o $@ \
++		bin/libhev-socks5-tunnel.a \
++		third-part/lwip/bin/liblwip.a \
++		third-part/yaml/bin/libyaml.a \
++		third-part/hev-task-system/bin/libhev-task-system.a
++	make clean
++
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a: export SDKROOT := $(shell xcrun --sdk iphonesimulator --show-sdk-path)
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a: export PP := xcrun --sdk iphonesimulator --toolchain iphonesimulator clang
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a: export CC := xcrun --sdk iphonesimulator --toolchain iphonesimulator clang
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a: export CFLAGS := -target arm64-apple-ios16.0-simulator -isysroot $(SDKROOT) -arch arm64
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a: export LFLAGS := -arch arm64 -Wl,-Bsymbolic-functions
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a:
++	make static -j 8
++	mkdir -p $(BUILDDIR)
++	libtool -static -o $@ \
++		bin/libhev-socks5-tunnel.a \
++		third-part/lwip/bin/liblwip.a \
++		third-part/yaml/bin/libyaml.a \
++		third-part/hev-task-system/bin/libhev-task-system.a
++	make clean
++
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-x86_64.a: export SDKROOT := $(shell xcrun --sdk iphonesimulator --show-sdk-path)
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-x86_64.a: export PP := xcrun --sdk iphonesimulator --toolchain iphonesimulator clang
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-x86_64.a: export CC := xcrun --sdk iphonesimulator --toolchain iphonesimulator clang
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-x86_64.a: export CFLAGS := -target x86_64-apple-ios16.0-simulator -isysroot $(SDKROOT) -arch x86_64
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-x86_64.a: export LFLAGS := -arch x86_64 -Wl,-Bsymbolic-functions
++$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-x86_64.a:
++	make static -j 8
++	mkdir -p $(BUILDDIR)
++	libtool -static -o $@ \
++		bin/libhev-socks5-tunnel.a \
++		third-part/lwip/bin/liblwip.a \
++		third-part/yaml/bin/libyaml.a \
++		third-part/hev-task-system/bin/libhev-task-system.a
++	make clean
++
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a: export SDKROOT := $(shell xcrun --sdk appletvsimulator --show-sdk-path)
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a: export PP := xcrun --sdk appletvsimulator --toolchain appletvsimulator clang
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a: export CC := xcrun --sdk appletvsimulator --toolchain appletvsimulator clang
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a: export CFLAGS := -target arm64-apple-tvos17.0-simulator -isysroot $(SDKROOT) -arch arm64
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a: export LFLAGS := -arch arm64 -Wl,-Bsymbolic-functions
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a:
++	make static -j 8
++	mkdir -p $(BUILDDIR)
++	libtool -static -o $@ \
++		bin/libhev-socks5-tunnel.a \
++		third-part/lwip/bin/liblwip.a \
++		third-part/yaml/bin/libyaml.a \
++		third-part/hev-task-system/bin/libhev-task-system.a
++	make clean
++
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-x86_64.a: export SDKROOT := $(shell xcrun --sdk appletvsimulator --show-sdk-path)
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-x86_64.a: export PP := xcrun --sdk appletvsimulator --toolchain appletvsimulator clang
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-x86_64.a: export CC := xcrun --sdk appletvsimulator --toolchain appletvsimulator clang
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-x86_64.a: export CFLAGS := -target x86_64-apple-tvos17.0-simulator -isysroot $(SDKROOT) -arch x86_64
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-x86_64.a: export LFLAGS := -arch x86_64 -Wl,-Bsymbolic-functions
++$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-x86_64.a:
++	make static -j 8
++	mkdir -p $(BUILDDIR)
++	libtool -static -o $@ \
++		bin/libhev-socks5-tunnel.a \
++		third-part/lwip/bin/liblwip.a \
++		third-part/yaml/bin/libyaml.a \
++		third-part/hev-task-system/bin/libhev-task-system.a
++	make clean
++
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-x86_64.a: export SDKROOT := $(shell xcrun --sdk macosx --show-sdk-path)
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-x86_64.a: export PP := xcrun --sdk macosx --toolchain macosx clang
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-x86_64.a: export CC := xcrun --sdk macosx --toolchain macosx clang
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-x86_64.a: export CFLAGS := -target x86_64-apple-ios16.0-macabi -isysroot $(SDKROOT) -arch x86_64
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-x86_64.a: export LFLAGS := -arch x86_64 -Wl,-Bsymbolic-functions
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-x86_64.a:
++	make static -j 8
++	mkdir -p $(BUILDDIR)
++	libtool -static -o $@ \
++		bin/libhev-socks5-tunnel.a \
++		third-part/lwip/bin/liblwip.a \
++		third-part/yaml/bin/libyaml.a \
++		third-part/hev-task-system/bin/libhev-task-system.a
++	make clean
++
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a: export SDKROOT := $(shell xcrun --sdk macosx --show-sdk-path)
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a: export PP := xcrun --sdk macosx --toolchain macosx clang
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a: export CC := xcrun --sdk macosx --toolchain macosx clang
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a: export CFLAGS := -target arm64-apple-ios16.0-macabi -isysroot $(SDKROOT) -arch arm64
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a: export LFLAGS := -arch arm64 -Wl,-Bsymbolic-functions
++$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a:
++	make static -j 8
++	mkdir -p $(BUILDDIR)
++	libtool -static -o $@ \
++		bin/libhev-socks5-tunnel.a \
++		third-part/lwip/bin/liblwip.a \
++		third-part/yaml/bin/libyaml.a \
++		third-part/hev-task-system/bin/libhev-task-system.a
++	make clean
++
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a: export SDKROOT := $(shell xcrun --sdk macosx --show-sdk-path)
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a: export PP := xcrun --sdk macosx --toolchain macosx clang
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a: export CC := xcrun --sdk macosx --toolchain macosx clang
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a: export CFLAGS := -mmacosx-version-min=12.0 -isysroot $(SDKROOT) -arch x86_64
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a: export LFLAGS := -arch x86_64 -Wl,-Bsymbolic-functions
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a:
++	make static -j 8
++	mkdir -p $(BUILDDIR)
++	libtool -static -o $@ \
++		bin/libhev-socks5-tunnel.a \
++		third-part/lwip/bin/liblwip.a \
++		third-part/yaml/bin/libyaml.a \
++		third-part/hev-task-system/bin/libhev-task-system.a
++	make clean
++
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a: export SDKROOT := $(shell xcrun --sdk macosx --show-sdk-path)
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a: export PP := xcrun --sdk macosx --toolchain macosx clang
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a: export CC := xcrun --sdk macosx --toolchain macosx clang
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a: export CFLAGS := -mmacosx-version-min=12.0 -isysroot $(SDKROOT) -arch arm64
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a: export LFLAGS := -arch arm64 -Wl,-Bsymbolic-functions
++$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a:
++	make static -j 8
++	mkdir -p $(BUILDDIR)
++	libtool -static -o $@ \
++		bin/libhev-socks5-tunnel.a \
++		third-part/lwip/bin/liblwip.a \
++		third-part/yaml/bin/libyaml.a \
++		third-part/hev-task-system/bin/libhev-task-system.a
++	make clean
++
++$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework: $(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a
++	@mkdir -p $(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Versions/A/Headers
++	@mkdir -p $(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Versions/A/Modules
++	@cp -v "src/hev-main.h" "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Versions/A/Headers/hev-main.h"
++	@cp -v "$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a" "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Versions/A/HevSocks5Tunnel"
++	@echo "framework module HevSocks5Tunnel {" > "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "  umbrella header \"hev-main.h\"" >> "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "  export *" >> "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "}" >> "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@ln -s "A" "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Versions/Current"
++	@ln -s "Versions/Current/Headers" "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Headers"
++	@ln -s "Versions/Current/Modules" "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/Modules"
++	@ln -s "Versions/Current/HevSocks5Tunnel" "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework/HevSocks5Tunnel"
++
++$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework: $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a
++	$(LIPO) -create -output "$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator_fat.a" "$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-x86_64.a" "$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a"
++	@mkdir -p $(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Versions/A/Headers
++	@mkdir -p $(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Versions/A/Modules
++	@cp -v "src/hev-main.h" "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Versions/A/Headers/hev-main.h"
++	@cp -v "$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator_fat.a" "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Versions/A/HevSocks5Tunnel"
++	@echo "framework module HevSocks5Tunnel {" > "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "  umbrella header \"hev-main.h\"" >> "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "  export *" >> "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "}" >> "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@ln -s "A" "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Versions/Current"
++	@ln -s "Versions/Current/Headers" "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Headers"
++	@ln -s "Versions/Current/Modules" "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/Modules"
++	@ln -s "Versions/Current/HevSocks5Tunnel" "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework/HevSocks5Tunnel"
++
++$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework: $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a
++	$(LIPO) -create -output "$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator_fat.a" "$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-x86_64.a" "$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a"
++	@mkdir -p $(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Versions/A/Headers
++	@mkdir -p $(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Versions/A/Modules
++	@cp -v "src/hev-main.h" "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Versions/A/Headers/hev-main.h"
++	@cp -v "$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator_fat.a" "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Versions/A/HevSocks5Tunnel"
++	@echo "framework module HevSocks5Tunnel {" > "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "  umbrella header \"hev-main.h\"" >> "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "  export *" >> "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "}" >> "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@ln -s "A" "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Versions/Current"
++	@ln -s "Versions/Current/Headers" "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Headers"
++	@ln -s "Versions/Current/Modules" "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/Modules"
++	@ln -s "Versions/Current/HevSocks5Tunnel" "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework/HevSocks5Tunnel"
++
++$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework: $(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a
++	$(LIPO) -create -output "$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst_fat.a" "$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-x86_64.a" "$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a"
++	@mkdir -p $(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Versions/A/Headers
++	@mkdir -p $(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Versions/A/Modules
++	@cp -v "src/hev-main.h" "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Versions/A/Headers/hev-main.h"
++	@cp -v "$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst_fat.a" "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Versions/A/HevSocks5Tunnel"
++	@echo "framework module HevSocks5Tunnel {" > "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "  umbrella header \"hev-main.h\"" >> "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "  export *" >> "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "}" >> "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@ln -s "A" "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Versions/Current"
++	@ln -s "Versions/Current/Headers" "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Headers"
++	@ln -s "Versions/Current/Modules" "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/Modules"
++	@ln -s "Versions/Current/HevSocks5Tunnel" "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework/HevSocks5Tunnel"
++
++$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework: $(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a
++	$(LIPO) -create -output "$(BUILDDIR)/libhev-socks5-tunnel-macosx_fat.a" "$(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a" "$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a"
++	@mkdir -p $(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Versions/A/Headers
++	@mkdir -p $(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Versions/A/Modules
++	@cp -v "src/hev-main.h" "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Versions/A/Headers/hev-main.h"
++	@cp -v "$(BUILDDIR)/libhev-socks5-tunnel-macosx_fat.a" "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Versions/A/HevSocks5Tunnel"
++	@echo "framework module HevSocks5Tunnel {" > "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "  umbrella header \"hev-main.h\"" >> "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "  export *" >> "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@echo "}" >> "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Versions/A/Modules/module.modulemap"
++	@ln -s "A" "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Versions/Current"
++	@ln -s "Versions/Current/Headers" "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Headers"
++	@ln -s "Versions/Current/Modules" "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/Modules"
++	@ln -s "Versions/Current/HevSocks5Tunnel" "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework/HevSocks5Tunnel"
++
++iphoneos: $(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework
++	rm -rf "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++	xcodebuild -create-xcframework -framework "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework" -output "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++	cp "$(DESTDIR)/HevSocks5Tunnel.xcframework/ios-arm64/HevSocks5Tunnel.framework/Versions/A/HevSocks5Tunnel" "$(DESTDIR)/libhev-socks5-tunnel.a"
++	cp "$(DESTDIR)/HevSocks5Tunnel.xcframework/ios-arm64/HevSocks5Tunnel.framework/Versions/A/Headers/hev-main.h" "$(DESTDIR)/hev-main-go.h"
++	cp "package/Templates/Package.ios.template" "$(BUILDDIR)/Package.template"
++
++iphonesimulator: $(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework
++	rm -rf "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++	xcodebuild -create-xcframework -framework "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework" -output "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++	cp "$(DESTDIR)/HevSocks5Tunnel.xcframework/ios-arm64_x86_64-simulator/HevSocks5Tunnel.framework/Versions/A/HevSocks5Tunnel" "$(DESTDIR)/libhev-socks5-tunnel.a"
++	cp "$(DESTDIR)/HevSocks5Tunnel.xcframework/ios-arm64_x86_64-simulator/HevSocks5Tunnel.framework/Versions/A/Headers/hev-main.h" "$(DESTDIR)/hev-main-go.h"
++	cp "package/Templates/Package.ios.template" "$(BUILDDIR)/Package.template"
++
++appletvsimulator: $(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework
++	rm -rf "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++	xcodebuild -create-xcframework -framework "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework" -output "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++	cp "$(DESTDIR)/HevSocks5Tunnel.xcframework/tvos-arm64_x86_64-simulator/HevSocks5Tunnel.framework/Versions/A/HevSocks5Tunnel" "$(DESTDIR)/libhev-socks5-tunnel.a"
++	cp "$(DESTDIR)/HevSocks5Tunnel.xcframework/tvos-arm64_x86_64-simulator/HevSocks5Tunnel.framework/Versions/A/Headers/hev-main.h" "$(DESTDIR)/hev-main-go.h"
++	cp "package/Templates/Package.appletv.template" "$(BUILDDIR)/Package.template"
++
++maccatalyst: $(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework
++	rm -rf "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++	xcodebuild -create-xcframework -framework "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework" -output "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++	cp "$(DESTDIR)/HevSocks5Tunnel.xcframework/ios-arm64_x86_64-maccatalyst/HevSocks5Tunnel.framework/Versions/A/HevSocks5Tunnel" "$(DESTDIR)/libhev-socks5-tunnel.a"
++	cp "$(DESTDIR)/HevSocks5Tunnel.xcframework/ios-arm64_x86_64-maccatalyst/HevSocks5Tunnel.framework/Versions/A/Headers/hev-main.h" "$(DESTDIR)/hev-main-go.h"
++	cp "package/Templates/Package.maccatalyst.template" "$(BUILDDIR)/Package.template"
++
++macosx: $(DESTDIR)/MacOSX/HevSocks5Tunnel.framework
++	rm -rf "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++	xcodebuild -create-xcframework -framework "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework" -output "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++	cp "$(DESTDIR)/HevSocks5Tunnel.xcframework/macos-arm64_x86_64/HevSocks5Tunnel.framework/Versions/A/HevSocks5Tunnel" "$(DESTDIR)/libhev-socks5-tunnel.a"
++	cp "$(DESTDIR)/HevSocks5Tunnel.xcframework/macos-arm64_x86_64/HevSocks5Tunnel.framework/Versions/A/Headers/hev-main.h" "$(DESTDIR)/hev-main-go.h"
++	cp "package/Templates/Package.macosx.template" "$(BUILDDIR)/Package.template"
++
++all: $(DESTDIR)/HevSocks5Tunnel.xcframework
++
++$(DESTDIR)/HevSocks5Tunnel.xcframework: $(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework $(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework $(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework $(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework $(DESTDIR)/MacOSX/HevSocks5Tunnel.framework
++	rm -rf $@
++	xcodebuild -create-xcframework -output "$(DESTDIR)/HevSocks5Tunnel.xcframework" -framework "$(DESTDIR)/MacCatalyst/HevSocks5Tunnel.framework" -framework "$(DESTDIR)/iPhoneOS/HevSocks5Tunnel.framework" -framework "$(DESTDIR)/MacOSX/HevSocks5Tunnel.framework" -framework "$(DESTDIR)/iPhoneSimulator/HevSocks5Tunnel.framework" -framework "$(DESTDIR)/AppleTVSimulator/HevSocks5Tunnel.framework"
++
++detect_platform: MAKEFILE := $(firstword $(MAKEFILE_LIST))
++detect_platform:
++	@if [ "$(TARGET_DEVICE_PLATFORM_NAME)" = "iphoneos" ]; then \
++		$(MAKE) -f $(MAKEFILE) iphoneos; \
++	elif [ "$(TARGET_DEVICE_PLATFORM_NAME)" = "iphonesimulator" ]; then \
++		$(MAKE) -f $(MAKEFILE) iphonesimulator; \
++	elif [ "$(TARGET_DEVICE_PLATFORM_NAME)" = "appletvsimulator" ]; then \
++		$(MAKE) -f $(MAKEFIE) iphonesimulator; \
++	elif [ "$(PLATFORM_NAME)" = "macosx" ]; then \
++		if [ "$(EFFECTIVE_PLATFORM_NAME)" = "-maccatalyst" ]; then \
++			$(MAKE) -f $(MAKEFILE) maccatalyst; \
++		else \
++			$(MAKE) -f $(MAKEFILE) macosx; \
++		fi; \
++	fi
++
++clean:
++	rm -rf "$(BUILDDIR)" "$(DESTDIR)/HevSocks5Tunnel.xcframework"
++
++install: build
++
++.PHONY: clean build install all ios appletvsimulator iphoneos iphonesimulator maccatalyst macosx detect_platform
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.2/src/hev-main.c b/thirdparty/hev-socks5-tunnel-2.6.2/src/hev-main.c
+index c3d470d..3c439d5 100644
+--- a/thirdparty/hev-socks5-tunnel-2.6.2/src/hev-main.c
++++ b/thirdparty/hev-socks5-tunnel-2.6.2/src/hev-main.c
+@@ -36,6 +36,7 @@ show_help (const char *self_path)
+             MICRO_VERSION, COMMIT_ID);
+ }
+ 
++#if 0
+ static void
+ run_as_daemon (const char *pid_file)
+ {
+@@ -57,6 +58,7 @@ run_as_daemon (const char *pid_file)
+     fprintf (fp, "%u\n", getpid ());
+     fclose (fp);
+ }
++#endif
+ 
+ static int
+ set_limit_nofile (int limit_nofile)
+@@ -89,7 +91,9 @@ lwip_fini (void)
+ int
+ hev_socks5_tunnel_main (const char *config_path, int tun_fd)
+ {
++#if 0
+     const char *pid_file;
++#endif
+     const char *log_file;
+     int log_level;
+     int nofile;
+@@ -115,9 +119,11 @@ hev_socks5_tunnel_main (const char *config_path, int tun_fd)
+     if (res < 0)
+         LOG_W ("set limit nofile");
+ 
++#if 0
+     pid_file = hev_config_get_misc_pid_file ();
+     if (pid_file)
+         run_as_daemon (pid_file);
++#endif
+ 
+     res = hev_task_system_init ();
+     if (res < 0)
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.2/third-part/lwip/include/ports/unix/lwipopts.h b/thirdparty/hev-socks5-tunnel-2.6.2/third-part/lwip/include/ports/unix/lwipopts.h
+index 3aa62ac..9018fd4 100644
+--- a/thirdparty/hev-socks5-tunnel-2.6.2/third-part/lwip/include/ports/unix/lwipopts.h
++++ b/thirdparty/hev-socks5-tunnel-2.6.2/third-part/lwip/include/ports/unix/lwipopts.h
+@@ -51,6 +51,8 @@
+    -----------------------------------------------
+ */
+ 
++#define LWIP_HAVE_SLIPIF 0
++
+ /**
+  * SYS_LIGHTWEIGHT_PROT==1: if you want inter-task protection for certain
+  * critical regions during buffer allocation, deallocation and memory
