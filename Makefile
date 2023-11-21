@@ -18,6 +18,7 @@ local: $(DESTDIR)/$(PACKAGE)
 	mkdir -p "$(DESTDIR)/$(PACKAGE)/xcframeworks"
 	cp -r "$(DESTDIR)/HevSocks5Tunnel.xcframework" "$(DESTDIR)/$(PACKAGE)/xcframeworks/"
 	cp "Templates/Package.local.template" "$(DESTDIR)/$(PACKAGE)/Package.swift"
+	cp -r "Sources" "$(DESTDIR)/$(PACKAGE)/"
 	cp README.md "$(DESTDIR)/$(PACKAGE)/"
 
 clean:
