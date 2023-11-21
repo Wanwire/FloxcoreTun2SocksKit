@@ -1,8 +1,8 @@
-diff --git a/thirdparty/hev-socks5-tunnel-2.6.2/MakefileFramework b/thirdparty/hev-socks5-tunnel-2.6.2/MakefileFramework
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.3/MakefileFramework b/thirdparty/hev-socks5-tunnel-2.6.3/MakefileFramework
 new file mode 100644
-index 0000000..23cd191
+index 0000000..70766a9
 --- /dev/null
-+++ b/thirdparty/hev-socks5-tunnel-2.6.2/MakefileFramework
++++ b/thirdparty/hev-socks5-tunnel-2.6.3/MakefileFramework
 @@ -0,0 +1,286 @@
 +
 +ARCHS ?= arm64
@@ -290,10 +290,10 @@ index 0000000..23cd191
 +install: build
 +
 +.PHONY: clean build install all ios appletvsimulator iphoneos iphonesimulator maccatalyst macosx detect_platform
-diff --git a/thirdparty/hev-socks5-tunnel-2.6.2/src/hev-main.c b/thirdparty/hev-socks5-tunnel-2.6.2/src/hev-main.c
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.3/src/hev-main.c b/thirdparty/hev-socks5-tunnel-2.6.3/src/hev-main.c
 index c3d470d..3c439d5 100644
---- a/thirdparty/hev-socks5-tunnel-2.6.2/src/hev-main.c
-+++ b/thirdparty/hev-socks5-tunnel-2.6.2/src/hev-main.c
+--- a/thirdparty/hev-socks5-tunnel-2.6.3/src/hev-main.c
++++ b/thirdparty/hev-socks5-tunnel-2.6.3/src/hev-main.c
 @@ -36,6 +36,7 @@ show_help (const char *self_path)
              MICRO_VERSION, COMMIT_ID);
  }
@@ -332,10 +332,10 @@ index c3d470d..3c439d5 100644
  
      res = hev_task_system_init ();
      if (res < 0)
-diff --git a/thirdparty/hev-socks5-tunnel-2.6.2/third-part/lwip/include/ports/unix/lwipopts.h b/thirdparty/hev-socks5-tunnel-2.6.2/third-part/lwip/include/ports/unix/lwipopts.h
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.3/third-part/lwip/include/ports/unix/lwipopts.h b/thirdparty/hev-socks5-tunnel-2.6.3/third-part/lwip/include/ports/unix/lwipopts.h
 index 3aa62ac..9018fd4 100644
---- a/thirdparty/hev-socks5-tunnel-2.6.2/third-part/lwip/include/ports/unix/lwipopts.h
-+++ b/thirdparty/hev-socks5-tunnel-2.6.2/third-part/lwip/include/ports/unix/lwipopts.h
+--- a/thirdparty/hev-socks5-tunnel-2.6.3/third-part/lwip/include/ports/unix/lwipopts.h
++++ b/thirdparty/hev-socks5-tunnel-2.6.3/third-part/lwip/include/ports/unix/lwipopts.h
 @@ -51,6 +51,8 @@
     -----------------------------------------------
  */
