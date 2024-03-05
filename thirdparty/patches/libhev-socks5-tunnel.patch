@@ -1,8 +1,8 @@
-diff --git a/thirdparty/hev-socks5-tunnel-2.6.3/MakefileFramework b/thirdparty/hev-socks5-tunnel-2.6.3/MakefileFramework
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.7/MakefileFramework b/thirdparty/hev-socks5-tunnel-2.6.7/MakefileFramework
 new file mode 100644
 index 0000000..4d38411
 --- /dev/null
-+++ b/thirdparty/hev-socks5-tunnel-2.6.3/MakefileFramework
++++ b/thirdparty/hev-socks5-tunnel-2.6.7/MakefileFramework
 @@ -0,0 +1,322 @@
 +
 +ARCHS ?= arm64
@@ -326,52 +326,68 @@ index 0000000..4d38411
 +install: build
 +
 +.PHONY: clean build install all ios appletvsimulator iphoneos iphonesimulator maccatalyst macosx detect_platform
-diff --git a/thirdparty/hev-socks5-tunnel-2.6.3/src/hev-main.c b/thirdparty/hev-socks5-tunnel-2.6.3/src/hev-main.c
-index c3d470d..3c439d5 100644
---- a/thirdparty/hev-socks5-tunnel-2.6.3/src/hev-main.c
-+++ b/thirdparty/hev-socks5-tunnel-2.6.3/src/hev-main.c
-@@ -36,6 +36,7 @@ show_help (const char *self_path)
-             MICRO_VERSION, COMMIT_ID);
- }
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.7/src/misc/hev-exec.c b/thirdparty/hev-socks5-tunnel-2.6.7/src/misc/hev-exec.c
+index 32158e9..1a76d59 100644
+--- a/thirdparty/hev-socks5-tunnel-2.6.7/src/misc/hev-exec.c
++++ b/thirdparty/hev-socks5-tunnel-2.6.7/src/misc/hev-exec.c
+@@ -16,15 +16,18 @@
+ 
+ #include "hev-exec.h"
  
 +#if 0
  static void
- run_as_daemon (const char *pid_file)
+ signal_handler (int signum)
  {
-@@ -57,6 +58,7 @@ run_as_daemon (const char *pid_file)
-     fprintf (fp, "%u\n", getpid ());
-     fclose (fp);
+     waitpid (-1, NULL, WNOHANG);
  }
 +#endif
  
- static int
- set_limit_nofile (int limit_nofile)
-@@ -89,7 +91,9 @@ lwip_fini (void)
- int
- hev_socks5_tunnel_main (const char *config_path, int tun_fd)
+ void
+ hev_exec_run (const char *script_path, const char *tun_name, int wait)
  {
 +#if 0
-     const char *pid_file;
-+#endif
-     const char *log_file;
-     int log_level;
-     int nofile;
-@@ -115,9 +119,11 @@ hev_socks5_tunnel_main (const char *config_path, int tun_fd)
-     if (res < 0)
-         LOG_W ("set limit nofile");
+     pid_t pid;
  
+     signal (SIGCHLD, signal_handler);
+@@ -40,7 +43,9 @@ hev_exec_run (const char *script_path, const char *tun_name, int wait)
+     }
+ 
+     execl (script_path, script_path, tun_name, NULL);
+-
+-    LOG_E ("exec %s %s", script_path, tun_name);
+-    exit (-1);
++#else
++    (void)wait;
++    LOG_E("exec %s %s", script_path, tun_name);
++    exit(-1);
++#endif
+ }
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.7/src/misc/hev-utils.c b/thirdparty/hev-socks5-tunnel-2.6.7/src/misc/hev-utils.c
+index 7d6c50a..e65e466 100644
+--- a/thirdparty/hev-socks5-tunnel-2.6.7/src/misc/hev-utils.c
++++ b/thirdparty/hev-socks5-tunnel-2.6.7/src/misc/hev-utils.c
+@@ -20,6 +20,7 @@
+ void
+ run_as_daemon (const char *pid_file)
+ {
 +#if 0
-     pid_file = hev_config_get_misc_pid_file ();
-     if (pid_file)
-         run_as_daemon (pid_file);
-+#endif
+     FILE *fp;
  
-     res = hev_task_system_init ();
-     if (res < 0)
-diff --git a/thirdparty/hev-socks5-tunnel-2.6.3/third-part/lwip/include/ports/unix/lwipopts.h b/thirdparty/hev-socks5-tunnel-2.6.3/third-part/lwip/include/ports/unix/lwipopts.h
+     fp = fopen (pid_file, "w+");
+@@ -37,6 +38,9 @@ run_as_daemon (const char *pid_file)
+ 
+     fprintf (fp, "%u\n", getpid ());
+     fclose (fp);
++#else
++    (void)pid_file;
++#endif
+ }
+ 
+ int
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/include/ports/unix/lwipopts.h b/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/include/ports/unix/lwipopts.h
 index 3aa62ac..9018fd4 100644
---- a/thirdparty/hev-socks5-tunnel-2.6.3/third-part/lwip/include/ports/unix/lwipopts.h
-+++ b/thirdparty/hev-socks5-tunnel-2.6.3/third-part/lwip/include/ports/unix/lwipopts.h
+--- a/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/include/ports/unix/lwipopts.h
++++ b/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/include/ports/unix/lwipopts.h
 @@ -51,6 +51,8 @@
     -----------------------------------------------
  */

@@ -1,5 +1,5 @@
 
-HEV = hev-socks5-tunnel-2.6.3
+HEV = hev-socks5-tunnel-2.6.7
 PLATFORM ?= 
 
 default: libhev
