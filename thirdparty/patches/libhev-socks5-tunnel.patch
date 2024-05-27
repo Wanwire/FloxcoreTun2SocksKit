@@ -56,16 +56,16 @@ index 7d6c50a..e65e466 100644
  }
  
  int
-diff --git a/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/include/ports/unix/lwipopts.h b/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/include/ports/unix/lwipopts.h
-index 3aa62ac..9018fd4 100644
---- a/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/include/ports/unix/lwipopts.h
-+++ b/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/include/ports/unix/lwipopts.h
-@@ -51,6 +51,8 @@
-    -----------------------------------------------
- */
+diff --git a/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/src/ports/unix/port/netif/sio.c b/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/src/ports/unix/port/netif/sio.c
+index 0ac3379..7f5a4a1 100644
+--- a/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/src/ports/unix/port/netif/sio.c
++++ b/thirdparty/hev-socks5-tunnel-2.6.7/third-part/lwip/src/ports/unix/port/netif/sio.c
+@@ -68,7 +68,7 @@
+ #endif
  
+ #ifndef LWIP_HAVE_SLIPIF
+-#define LWIP_HAVE_SLIPIF 1
 +#define LWIP_HAVE_SLIPIF 0
-+
- /**
-  * SYS_LIGHTWEIGHT_PROT==1: if you want inter-task protection for certain
-  * critical regions during buffer allocation, deallocation and memory
+ #endif
+ 
+ /** Maximum packet size that is received by this netif */
