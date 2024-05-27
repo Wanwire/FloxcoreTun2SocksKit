@@ -13,14 +13,6 @@ $(DESTDIR)/HevSocks5Tunnel.xcframework: export DESTDIR := $(CURDIR)/$(DESTDIR)
 $(DESTDIR)/HevSocks5Tunnel.xcframework:
 	$(MAKE) -C thirdparty libhev
 
-local: $(DESTDIR)/$(PACKAGE)
-	rm -rf "$(DESTDIR)/$(PACKAGE)"
-	mkdir -p "$(DESTDIR)/$(PACKAGE)/xcframeworks"
-	cp -r "$(DESTDIR)/HevSocks5Tunnel.xcframework" "$(DESTDIR)/$(PACKAGE)/xcframeworks/"
-	cp "Templates/Package.local.template" "$(DESTDIR)/$(PACKAGE)/Package.swift"
-	cp -r "Sources" "$(DESTDIR)/$(PACKAGE)/"
-	cp README.md "$(DESTDIR)/$(PACKAGE)/"
-
 clean:
 	$(MAKE) -C thirdparty clean
 	@rm -rf "$(DESTDIR)"
