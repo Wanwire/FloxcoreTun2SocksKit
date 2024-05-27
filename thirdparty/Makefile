@@ -5,7 +5,7 @@ PLATFORM ?=
 default: libhev
 
 libhev: patched
-	make -C $(HEV) -f MakefileFramework $(PLATFORM)
+	make -C $(HEV) -f ../tools/MakefileFramework $(PLATFORM)
 
 patched:
 	@for patchfile in patches/libhev*.patch; do \
