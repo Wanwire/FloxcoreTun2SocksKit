@@ -23,7 +23,7 @@ jobs:
         run: make
 
       - name: Archive xcframework
-        run: zip -r build/HevSocks5Tunnel.xcframework.zip build/HevSocks5Tunnel.xcframework
+        run: zip -r build/HevSocks5Tunnel.xcframework.zip build/Tun2SocksKit/xcframeworks/HevSocks5Tunnel.xcframework
 
       - name: Fix up Package.swift
         run: |

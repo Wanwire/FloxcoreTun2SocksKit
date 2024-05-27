@@ -68,7 +68,7 @@
 #endif
 
 #ifndef LWIP_HAVE_SLIPIF
-#define LWIP_HAVE_SLIPIF 1
+#define LWIP_HAVE_SLIPIF 0
 #endif
 
 /** Maximum packet size that is received by this netif */

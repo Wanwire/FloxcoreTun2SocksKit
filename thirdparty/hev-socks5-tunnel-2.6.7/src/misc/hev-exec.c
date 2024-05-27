@@ -16,15 +16,18 @@
 
 #include "hev-exec.h"
 
+#if 0
 static void
 signal_handler (int signum)
 {
     waitpid (-1, NULL, WNOHANG);
 }
+#endif
 
 void
 hev_exec_run (const char *script_path, const char *tun_name, int wait)
 {
+#if 0
     pid_t pid;
 
     signal (SIGCHLD, signal_handler);
@@ -40,7 +43,9 @@ hev_exec_run (const char *script_path, const char *tun_name, int wait)
     }
 
     execl (script_path, script_path, tun_name, NULL);
-
-    LOG_E ("exec %s %s", script_path, tun_name);
-    exit (-1);
+#else
+    (void)wait;
+    LOG_E("exec %s %s", script_path, tun_name);
+    exit(-1);
+#endif
 }

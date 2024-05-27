@@ -20,6 +20,7 @@
 void
 run_as_daemon (const char *pid_file)
 {
+#if 0
     FILE *fp;
 
     fp = fopen (pid_file, "w+");
@@ -37,6 +38,9 @@ run_as_daemon (const char *pid_file)
 
     fprintf (fp, "%u\n", getpid ());
     fclose (fp);
+#else
+    (void)pid_file;
+#endif
 }
 
 int
