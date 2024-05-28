@@ -22,7 +22,7 @@ socks5:
   udp: 'udp'
 
 misc:
-  task-stack-size: 20480
+  task-stack-size: 81920
   connect-timeout: 5000
   read-write-timeout: 60000
   log-file: stderr
