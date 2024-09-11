@@ -1,11 +1,11 @@
-diff --git a/thirdparty/hev-socks5-tunnel-2.7.0/src/misc/hev-exec.c b/thirdparty/hev-socks5-tunnel-2.7.0/src/misc/hev-exec.c
-index 32158e9..1a76d59 100644
---- a/thirdparty/hev-socks5-tunnel-2.7.0/src/misc/hev-exec.c
-+++ b/thirdparty/hev-socks5-tunnel-2.7.0/src/misc/hev-exec.c
-@@ -16,15 +16,18 @@
- 
- #include "hev-exec.h"
- 
+diff --git a/thirdparty/hev-socks5-tunnel-2.7.4/src/misc/hev-exec.c b/thirdparty/hev-socks5-tunnel-2.7.4/src/misc/hev-exec.c
+index 287b60f..eb1c9d9 100644
+--- a/thirdparty/hev-socks5-tunnel-2.7.4/src/misc/hev-exec.c
++++ b/thirdparty/hev-socks5-tunnel-2.7.4/src/misc/hev-exec.c
+@@ -28,15 +28,18 @@ hev_exec_run (const char *script_path, const char *tun_name, int wait)
+ {
+ }
+ #else
 +#if 0
  static void
  signal_handler (int signum)
@@ -21,24 +21,23 @@ index 32158e9..1a76d59 100644
      pid_t pid;
  
      signal (SIGCHLD, signal_handler);
-@@ -40,7 +43,9 @@ hev_exec_run (const char *script_path, const char *tun_name, int wait)
+@@ -52,8 +55,10 @@ hev_exec_run (const char *script_path, const char *tun_name, int wait)
      }
  
      execl (script_path, script_path, tun_name, NULL);
 -
--    LOG_E ("exec %s %s", script_path, tun_name);
--    exit (-1);
 +#else
 +    (void)wait;
-+    LOG_E("exec %s %s", script_path, tun_name);
-+    exit(-1);
+     LOG_E ("exec %s %s", script_path, tun_name);
+     exit (-1);
 +#endif
  }
-diff --git a/thirdparty/hev-socks5-tunnel-2.7.0/src/misc/hev-utils.c b/thirdparty/hev-socks5-tunnel-2.7.0/src/misc/hev-utils.c
-index 7d6c50a..e65e466 100644
---- a/thirdparty/hev-socks5-tunnel-2.7.0/src/misc/hev-utils.c
-+++ b/thirdparty/hev-socks5-tunnel-2.7.0/src/misc/hev-utils.c
-@@ -20,6 +20,7 @@
+ #endif
+diff --git a/thirdparty/hev-socks5-tunnel-2.7.4/src/misc/hev-utils.c b/thirdparty/hev-socks5-tunnel-2.7.4/src/misc/hev-utils.c
+index 6c2316a..b44a0de 100644
+--- a/thirdparty/hev-socks5-tunnel-2.7.4/src/misc/hev-utils.c
++++ b/thirdparty/hev-socks5-tunnel-2.7.4/src/misc/hev-utils.c
+@@ -26,6 +26,7 @@
  void
  run_as_daemon (const char *pid_file)
  {
@@ -46,7 +45,7 @@ index 7d6c50a..e65e466 100644
      FILE *fp;
  
      fp = fopen (pid_file, "w+");
-@@ -37,6 +38,9 @@ run_as_daemon (const char *pid_file)
+@@ -45,6 +46,9 @@ run_as_daemon (const char *pid_file)
  
      fprintf (fp, "%u\n", getpid ());
      fclose (fp);
@@ -56,11 +55,11 @@ index 7d6c50a..e65e466 100644
  }
  
  int
-diff --git a/thirdparty/hev-socks5-tunnel-2.7.0/third-part/lwip/src/ports/unix/netif/sio.c b/thirdparty/hev-socks5-tunnel-2.7.0/third-part/lwip/src/ports/unix/netif/sio.c
-index 30ee08c..810d8af 100644
---- a/thirdparty/hev-socks5-tunnel-2.7.0/third-part/lwip/src/ports/unix/netif/sio.c
-+++ b/thirdparty/hev-socks5-tunnel-2.7.0/third-part/lwip/src/ports/unix/netif/sio.c
-@@ -70,7 +70,7 @@
+diff --git a/thirdparty/hev-socks5-tunnel-2.7.4/third-part/lwip/src/ports/unix/netif/sio.c b/thirdparty/hev-socks5-tunnel-2.7.4/third-part/lwip/src/ports/unix/netif/sio.c
+index 1a59945..b66fd35 100644
+--- a/thirdparty/hev-socks5-tunnel-2.7.4/third-part/lwip/src/ports/unix/netif/sio.c
++++ b/thirdparty/hev-socks5-tunnel-2.7.4/third-part/lwip/src/ports/unix/netif/sio.c
+@@ -72,7 +72,7 @@
  #endif
  
  #ifndef LWIP_HAVE_SLIPIF
