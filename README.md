@@ -4,13 +4,6 @@
 
 [Download](https://github.com/Wanwire/FloxcoreTun2SocksKit/releases/latest "download latest release")
 
-### Usage
-```swift
-import Tun2SocksKit
-
-Socks5Tunnel.run(withFileDescriptor: 4, configFilePath: localConfigFileURL.path(percentEncoded: false))
-```
-
 ### Example configuration
 ```yml
 tunnel:
@@ -29,5 +22,19 @@ misc:
   log-file: stderr
   log-level: debug
   limit-nofile: 65535
+```
+
+### Usage
+```swift
+import Tun2SocksKit
+
+let config = "..."
+
+// start
+Socks5Tunnel.run(config: config)
+
+
+// stop
+Socks5Tunnel.quit()
 ```
 
