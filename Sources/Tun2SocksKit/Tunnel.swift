@@ -62,11 +62,19 @@ public enum Socks5Tunnel {
     }
 
     @discardableResult
-    public static func run(withConfig filePath: String) -> Int32 {
+    public static func run(filePath: String) -> Int32 {
         guard let fileDescriptor = self.tunnelFileDescriptor else {
             fatalError("Get tunnel file descriptor failed.")
         }
         return hev_socks5_tunnel_main(filePath.cString(using: .utf8), fileDescriptor)
+    }
+
+    @discardableResult
+    public static func run(config: String) -> Int32 {
+        guard let fileDescriptor = self.tunnelFileDescriptor else {
+            fatalError("Get tunnel file descriptor failed.")
+        }
+        return hev_socks5_tunnel_main_from_str(config.cString(using: .utf8), UInt32(config.count), fileDescriptor)
     }
 
     public static func quit() {
