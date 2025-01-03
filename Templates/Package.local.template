@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
   name: "Tun2SocksKit",
-  platforms: [.iOS(.v16), .macOS(.v14), .macCatalyst(.v16), .tvOS(.v17)],
+  platforms: [.iOS(.v16), .macOS(.v14), .macCatalyst(.v16), .tvOS(.v17), .visionOS(.v1)],
   products: [
     .library(
         name: "Tun2SocksKit",

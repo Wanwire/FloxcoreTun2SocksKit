@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
   name: "Tun2SocksKit",
-  platforms: [.iOS(.v16), .macOS(.v14), .macCatalyst(.v16), .tvOS(.v17), .visionOS(.v1)],
+  platforms: [.visionOS(.v1)],
   products: [
     .library(
         name: "Tun2SocksKit",
@@ -22,8 +22,7 @@ let package = Package(
     ),
     .binaryTarget(
         name: "HevSocks5Tunnel",
-	url: "https://github.com/Wanwire/FloxcoreTun2SocksKit/releases/download/VERSION/HevSocks5Tunnel.xcframework.zip",
-	checksum: "CHECKSUM"
+        path: "xcframeworks/HevSocks5Tunnel.xcframework"
     )
   ]
 )

@@ -13,6 +13,36 @@ LIPO ?= lipo
 
 build: detect_platform
 
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64.a: export SDKROOT := $(shell xcrun --sdk xros --show-sdk-path)
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64.a: export PP := xcrun --sdk xros --toolchain xros clang
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64.a: export CC := xcrun --sdk xros --toolchain xros clang
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64.a: export CFLAGS := -mtargetos=xros1.0 -isysroot $(SDKROOT) -arch arm64
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64.a: export LFLAGS := -arch arm64 -Wl,-Bsymbolic-functions
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64.a:
+	make static -j 8
+	mkdir -p $(BUILDDIR)
+	libtool -static -o $@ \
+		bin/libhev-socks5-tunnel.a \
+		third-part/lwip/bin/liblwip.a \
+		third-part/yaml/bin/libyaml.a \
+		third-part/hev-task-system/bin/libhev-task-system.a
+	make clean
+
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a: export SDKROOT := $(shell xcrun --sdk xrsimulator --show-sdk-path)
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a: export PP := xcrun --sdk xrsimulator --toolchain xrsimulator clang
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a: export CC := xcrun --sdk xrsimulator --toolchain xrsimulator clang
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a: export CFLAGS := -target arm64-apple-xros1.0-simulator -isysroot $(SDKROOT) -arch arm64
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a: export LFLAGS := -arch arm64 -Wl,-Bsymbolic-functions
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a:
+	make static -j 8
+	mkdir -p $(BUILDDIR)
+	libtool -static -o $@ \
+		bin/libhev-socks5-tunnel.a \
+		third-part/lwip/bin/liblwip.a \
+		third-part/yaml/bin/libyaml.a \
+		third-part/hev-task-system/bin/libhev-task-system.a
+	make clean
+
 $(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a: export SDKROOT := $(shell xcrun --sdk iphoneos --show-sdk-path)
 $(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a: export PP := xcrun --sdk iphoneos --toolchain iphoneos clang
 $(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a: export CC := xcrun --sdk iphoneos --toolchain iphoneos clang
@@ -163,6 +193,14 @@ $(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a:
 		third-part/hev-task-system/bin/libhev-task-system.a
 	make clean
 
+$(DESTDIR)/VisionOS/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64.a
+	mkdir -p $(dir $@)
+	$(LIPO) -create -output $@ $^
+
+$(DESTDIR)/VisionSimulator/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a
+	mkdir -p $(dir $@)
+	$(LIPO) -create -output $@ $^
+
 $(DESTDIR)/iPhoneOS/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a
 	mkdir -p $(dir $@)
 	$(LIPO) -create -output $@ $^
@@ -267,11 +305,37 @@ macosx: $(DESTDIR)/MacOSX/libhev.a
 	cp -r "../../Sources" "$(PACKAGEDIR)/"
 	cp "../../README.md" "$(PACKAGEDIR)/"
 
+visionos: $(DESTDIR)/VisionOS/libhev.a
+	rm -rf "$(PACKAGEDIR)"
+	mkdir -p "$(PACKAGEDIR)/xcframeworks"
+	rm -rf "$(BUILDDIR)/headers"
+	mkdir -p "$(BUILDDIR)/headers/hev"
+	cp include/*.h "$(BUILDDIR)/headers/hev/hev-main.h"
+	cp ../tools/module.modulemap "$(BUILDDIR)/headers/hev"
+	xcodebuild -create-xcframework -library $^ -headers "$(BUILDDIR)/headers" -output "$(PACKAGEDIR)/xcframeworks/HevSocks5Tunnel.xcframework"
+	cp ../tools/PrivacyInfo.xcprivacy "$(PACKAGEDIR)/xcframeworks/HevSocks5Tunnel.xcframework/"
+	cp "../../Templates/Package.visionos.template" "$(PACKAGEDIR)/Package.swift"
+	cp -r "../../Sources" "$(PACKAGEDIR)/"
+	cp "../../README.md" "$(PACKAGEDIR)/"
+
+visionsimulator: $(DESTDIR)/VisionSimulator/libhev.a
+	rm -rf "$(PACKAGEDIR)"
+	mkdir -p "$(PACKAGEDIR)/xcframeworks"
+	rm -rf "$(BUILDDIR)/headers"
+	mkdir -p "$(BUILDDIR)/headers/hev"
+	cp include/*.h "$(BUILDDIR)/headers/hev/hev-main.h"
+	cp ../tools/module.modulemap "$(BUILDDIR)/headers/hev"
+	xcodebuild -create-xcframework -library $^ -headers "$(BUILDDIR)/headers" -output "$(PACKAGEDIR)/xcframeworks/HevSocks5Tunnel.xcframework"
+	cp ../tools/PrivacyInfo.xcprivacy "$(PACKAGEDIR)/xcframeworks/HevSocks5Tunnel.xcframework/"
+	cp "../../Templates/Package.visionos.template" "$(PACKAGEDIR)/Package.swift"
+	cp -r "../../Sources" "$(PACKAGEDIR)/"
+	cp "../../README.md" "$(PACKAGEDIR)/"
+
 default: $(PACKAGEDIR)
 
 all: $(PACKAGEDIR)
 
-$(PACKAGEDIR): $(DESTDIR)/iPhoneOS/libhev.a $(DESTDIR)/iPhoneSimulator/libhev.a $(DESTDIR)/AppleTVSimulator/libhev.a $(DESTDIR)/MacCatalyst/libhev.a $(DESTDIR)/MacOSX/libhev.a $(DESTDIR)/AppleTVOS/libhev.a
+$(PACKAGEDIR): $(DESTDIR)/iPhoneOS/libhev.a $(DESTDIR)/iPhoneSimulator/libhev.a $(DESTDIR)/AppleTVSimulator/libhev.a $(DESTDIR)/MacCatalyst/libhev.a $(DESTDIR)/MacOSX/libhev.a $(DESTDIR)/AppleTVOS/libhev.a $(DESTDIR)/VisionOS/libhev.a $(DESTDIR)/VisionSimulator/libhev.a
 	rm -rf "$@"
 	mkdir -p "$@/xcframeworks"
 	rm -rf "$(BUILDDIR)/headers"
@@ -285,7 +349,9 @@ $(PACKAGEDIR): $(DESTDIR)/iPhoneOS/libhev.a $(DESTDIR)/iPhoneSimulator/libhev.a 
 		-library "$(DESTDIR)/AppleTVSimulator/libhev.a" -headers "$(BUILDDIR)/headers" \
 		-library "$(DESTDIR)/AppleTVOS/libhev.a" -headers "$(BUILDDIR)/headers" \
 		-library "$(DESTDIR)/MacCatalyst/libhev.a" -headers "$(BUILDDIR)/headers" \
-		-library "$(DESTDIR)/MacOSX/libhev.a" -headers "$(BUILDDIR)/headers"
+		-library "$(DESTDIR)/MacOSX/libhev.a" -headers "$(BUILDDIR)/headers" \
+		-library "$(DESTDIR)/VisionOS/libhev.a" -headers "$(BUILDDIR)/headers" \
+		-library "$(DESTDIR)/VisionSimulator/libhev.a" -headers "$(BUILDDIR)/headers"
 	mkdir -p "$@/xcframeworks/HevSocks5Tunnel.xcframework/macos-arm64_x86_64/Versions/A/Resources"
 	cp ../tools/PrivacyInfo.xcprivacy "$@/xcframeworks/HevSocks5Tunnel.xcframework/macos-arm64_x86_64/Versions/A/Resources/"
 	mkdir -p "$@/xcframeworks/HevSocks5Tunnel.xcframework/ios-arm64_x86_64-maccatalyst/Versions/A/Resources"
@@ -315,4 +381,4 @@ clean:
 
 install: build
 
-.PHONY: clean build install all ios appletvos appletvsimulator iphoneos iphonesimulator maccatalyst macos detect_platform
+.PHONY: clean build install all ios appletvos appletvsimulator iphoneos iphonesimulator maccatalyst macos detect_platform visionos visionsimulator
