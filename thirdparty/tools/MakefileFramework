@@ -28,12 +28,42 @@ $(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64.a:
 		third-part/hev-task-system/bin/libhev-task-system.a
 	make clean
 
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64e.a: export SDKROOT := $(shell xcrun --sdk xros --show-sdk-path)
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64e.a: export PP := xcrun --sdk xros --toolchain xros clang
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64e.a: export CC := xcrun --sdk xros --toolchain xros clang
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64e.a: export CFLAGS := -mtargetos=xros1.0 -isysroot $(SDKROOT) -arch arm64e
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64e.a: export LFLAGS := -arch arm64e -Wl,-Bsymbolic-functions
+$(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64e.a:
+	make static -j 8
+	mkdir -p $(BUILDDIR)
+	libtool -static -o $@ \
+		bin/libhev-socks5-tunnel.a \
+		third-part/lwip/bin/liblwip.a \
+		third-part/yaml/bin/libyaml.a \
+		third-part/hev-task-system/bin/libhev-task-system.a
+	make clean
+
 $(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a: export SDKROOT := $(shell xcrun --sdk xrsimulator --show-sdk-path)
 $(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a: export PP := xcrun --sdk xrsimulator --toolchain xrsimulator clang
 $(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a: export CC := xcrun --sdk xrsimulator --toolchain xrsimulator clang
 $(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a: export CFLAGS := -target arm64-apple-xros1.0-simulator -isysroot $(SDKROOT) -arch arm64
 $(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a: export LFLAGS := -arch arm64 -Wl,-Bsymbolic-functions
 $(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a:
+	make static -j 8
+	mkdir -p $(BUILDDIR)
+	libtool -static -o $@ \
+		bin/libhev-socks5-tunnel.a \
+		third-part/lwip/bin/liblwip.a \
+		third-part/yaml/bin/libyaml.a \
+		third-part/hev-task-system/bin/libhev-task-system.a
+	make clean
+
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64e.a: export SDKROOT := $(shell xcrun --sdk xrsimulator --show-sdk-path)
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64e.a: export PP := xcrun --sdk xrsimulator --toolchain xrsimulator clang
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64e.a: export CC := xcrun --sdk xrsimulator --toolchain xrsimulator clang
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64e.a: export CFLAGS := -target arm64-apple-xros1.0-simulator -isysroot $(SDKROOT) -arch arm64e
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64e.a: export LFLAGS := -arch arm64e -Wl,-Bsymbolic-functions
+$(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64e.a:
 	make static -j 8
 	mkdir -p $(BUILDDIR)
 	libtool -static -o $@ \
@@ -58,6 +88,21 @@ $(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a:
 		third-part/hev-task-system/bin/libhev-task-system.a
 	make clean
 
+$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64e.a: export SDKROOT := $(shell xcrun --sdk iphoneos --show-sdk-path)
+$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64e.a: export PP := xcrun --sdk iphoneos --toolchain iphoneos clang
+$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64e.a: export CC := xcrun --sdk iphoneos --toolchain iphoneos clang
+$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64e.a: export CFLAGS := -miphoneos-version-min=16.0 -isysroot $(SDKROOT) -arch arm64e
+$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64e.a: export LFLAGS := -arch arm64e -Wl,-Bsymbolic-functions
+$(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64e.a:
+	make static -j 8
+	mkdir -p $(BUILDDIR)
+	libtool -static -o $@ \
+		bin/libhev-socks5-tunnel.a \
+		third-part/lwip/bin/liblwip.a \
+		third-part/yaml/bin/libyaml.a \
+		third-part/hev-task-system/bin/libhev-task-system.a
+	make clean
+
 $(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64.a: export SDKROOT := $(shell xcrun --sdk appletvos --show-sdk-path)
 $(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64.a: export PP := xcrun --sdk iphoneos --toolchain appletvos clang
 $(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64.a: export CC := xcrun --sdk iphoneos --toolchain appletvos clang
@@ -73,12 +118,42 @@ $(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64.a:
 		third-part/hev-task-system/bin/libhev-task-system.a
 	make clean
 
+$(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64e.a: export SDKROOT := $(shell xcrun --sdk appletvos --show-sdk-path)
+$(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64e.a: export PP := xcrun --sdk iphoneos --toolchain appletvos clang
+$(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64e.a: export CC := xcrun --sdk iphoneos --toolchain appletvos clang
+$(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64e.a: export CFLAGS := -mappletvos-version-min=17.0 -isysroot $(SDKROOT) -arch arm64e
+$(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64e.a: export LFLAGS := -arch arm64e -Wl,-Bsymbolic-functions
+$(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64e.a:
+	make static -j 8
+	mkdir -p $(BUILDDIR)
+	libtool -static -o $@ \
+		bin/libhev-socks5-tunnel.a \
+		third-part/lwip/bin/liblwip.a \
+		third-part/yaml/bin/libyaml.a \
+		third-part/hev-task-system/bin/libhev-task-system.a
+	make clean
+
 $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a: export SDKROOT := $(shell xcrun --sdk iphonesimulator --show-sdk-path)
 $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a: export PP := xcrun --sdk iphonesimulator --toolchain iphonesimulator clang
 $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a: export CC := xcrun --sdk iphonesimulator --toolchain iphonesimulator clang
 $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a: export CFLAGS := -target arm64-apple-ios16.0-simulator -isysroot $(SDKROOT) -arch arm64
 $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a: export LFLAGS := -arch arm64 -Wl,-Bsymbolic-functions
 $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a:
+	make static -j 8
+	mkdir -p $(BUILDDIR)
+	libtool -static -o $@ \
+		bin/libhev-socks5-tunnel.a \
+		third-part/lwip/bin/liblwip.a \
+		third-part/yaml/bin/libyaml.a \
+		third-part/hev-task-system/bin/libhev-task-system.a
+	make clean
+
+$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64e.a: export SDKROOT := $(shell xcrun --sdk iphonesimulator --show-sdk-path)
+$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64e.a: export PP := xcrun --sdk iphonesimulator --toolchain iphonesimulator clang
+$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64e.a: export CC := xcrun --sdk iphonesimulator --toolchain iphonesimulator clang
+$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64e.a: export CFLAGS := -target arm64-apple-ios16.0-simulator -isysroot $(SDKROOT) -arch arm64e
+$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64e.a: export LFLAGS := -arch arm64e -Wl,-Bsymbolic-functions
+$(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64e.a:
 	make static -j 8
 	mkdir -p $(BUILDDIR)
 	libtool -static -o $@ \
@@ -109,6 +184,21 @@ $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a: export CC := xcrun --
 $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a: export CFLAGS := -target arm64-apple-tvos17.0-simulator -isysroot $(SDKROOT) -arch arm64
 $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a: export LFLAGS := -arch arm64 -Wl,-Bsymbolic-functions
 $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a:
+	make static -j 8
+	mkdir -p $(BUILDDIR)
+	libtool -static -o $@ \
+		bin/libhev-socks5-tunnel.a \
+		third-part/lwip/bin/liblwip.a \
+		third-part/yaml/bin/libyaml.a \
+		third-part/hev-task-system/bin/libhev-task-system.a
+	make clean
+
+$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64e.a: export SDKROOT := $(shell xcrun --sdk appletvsimulator --show-sdk-path)
+$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64e.a: export PP := xcrun --sdk appletvsimulator --toolchain appletvsimulator clang
+$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64e.a: export CC := xcrun --sdk appletvsimulator --toolchain appletvsimulator clang
+$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64e.a: export CFLAGS := -target arm64-apple-tvos17.0-simulator -isysroot $(SDKROOT) -arch arm64e
+$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64e.a: export LFLAGS := -arch arm64e -Wl,-Bsymbolic-functions
+$(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64e.a:
 	make static -j 8
 	mkdir -p $(BUILDDIR)
 	libtool -static -o $@ \
@@ -163,6 +253,21 @@ $(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a:
 		third-part/hev-task-system/bin/libhev-task-system.a
 	make clean
 
+$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64e.a: export SDKROOT := $(shell xcrun --sdk macosx --show-sdk-path)
+$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64e.a: export PP := xcrun --sdk macosx --toolchain macosx clang
+$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64e.a: export CC := xcrun --sdk macosx --toolchain macosx clang
+$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64e.a: export CFLAGS := -target arm64-apple-ios16.0-macabi -isysroot $(SDKROOT) -arch arm64e
+$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64e.a: export LFLAGS := -arch arm64e -Wl,-Bsymbolic-functions
+$(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64e.a:
+	make static -j 8
+	mkdir -p $(BUILDDIR)
+	libtool -static -o $@ \
+		bin/libhev-socks5-tunnel.a \
+		third-part/lwip/bin/liblwip.a \
+		third-part/yaml/bin/libyaml.a \
+		third-part/hev-task-system/bin/libhev-task-system.a
+	make clean
+
 $(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a: export SDKROOT := $(shell xcrun --sdk macosx --show-sdk-path)
 $(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a: export PP := xcrun --sdk macosx --toolchain macosx clang
 $(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a: export CC := xcrun --sdk macosx --toolchain macosx clang
@@ -193,35 +298,50 @@ $(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a:
 		third-part/hev-task-system/bin/libhev-task-system.a
 	make clean
 
-$(DESTDIR)/VisionOS/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64.a
+$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64e.a: export SDKROOT := $(shell xcrun --sdk macosx --show-sdk-path)
+$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64e.a: export PP := xcrun --sdk macosx --toolchain macosx clang
+$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64e.a: export CC := xcrun --sdk macosx --toolchain macosx clang
+$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64e.a: export CFLAGS := -mmacosx-version-min=12.0 -isysroot $(SDKROOT) -arch arm64e
+$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64e.a: export LFLAGS := -arch arm64e -Wl,-Bsymbolic-functions
+$(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64e.a:
+	make static -j 8
+	mkdir -p $(BUILDDIR)
+	libtool -static -o $@ \
+		bin/libhev-socks5-tunnel.a \
+		third-part/lwip/bin/liblwip.a \
+		third-part/yaml/bin/libyaml.a \
+		third-part/hev-task-system/bin/libhev-task-system.a
+	make clean
+
+$(DESTDIR)/VisionOS/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64.a $(BUILDDIR)/libhev-socks5-tunnel-visionos-arm64e.a
 	mkdir -p $(dir $@)
 	$(LIPO) -create -output $@ $^
 
-$(DESTDIR)/VisionSimulator/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a
+$(DESTDIR)/VisionSimulator/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64.a $(BUILDDIR)/libhev-socks5-tunnel-visionsimulator-arm64e.a
 	mkdir -p $(dir $@)
 	$(LIPO) -create -output $@ $^
 
-$(DESTDIR)/iPhoneOS/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a
+$(DESTDIR)/iPhoneOS/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64.a $(BUILDDIR)/libhev-socks5-tunnel-iphoneos-arm64e.a
 	mkdir -p $(dir $@)
 	$(LIPO) -create -output $@ $^
 
-$(DESTDIR)/AppleTVOS/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64.a
+$(DESTDIR)/AppleTVOS/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64.a $(BUILDDIR)/libhev-socks5-tunnel-appletvos-arm64e.a
 	mkdir -p $(dir $@)
 	$(LIPO) -create -output $@ $^
 
-$(DESTDIR)/iPhoneSimulator/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a
+$(DESTDIR)/iPhoneSimulator/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64.a $(BUILDDIR)/libhev-socks5-tunnel-iphonesimulator-arm64e.a
 	mkdir -p $(dir $@)
 	$(LIPO) -create -output $@ $^
 
-$(DESTDIR)/AppleTVSimulator/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a
+$(DESTDIR)/AppleTVSimulator/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64.a $(BUILDDIR)/libhev-socks5-tunnel-appletvsimulator-arm64e.a
 	mkdir -p $(dir $@)
 	$(LIPO) -create -output $@ $^
 
-$(DESTDIR)/MacCatalyst/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a
+$(DESTDIR)/MacCatalyst/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64.a $(BUILDDIR)/libhev-socks5-tunnel-maccatalyst-arm64e.a
 	mkdir -p $(dir $@)
 	$(LIPO) -create -output $@ $^
 
-$(DESTDIR)/MacOSX/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a
+$(DESTDIR)/MacOSX/libhev.a: $(BUILDDIR)/libhev-socks5-tunnel-macosx-x86_64.a $(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64.a $(BUILDDIR)/libhev-socks5-tunnel-macosx-arm64e.a
 	mkdir -p $(dir $@)
 	$(LIPO) -create -output $@ $^
 
