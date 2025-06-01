@@ -22,8 +22,8 @@ let package = Package(
     ),
     .binaryTarget(
         name: "HevSocks5Tunnel",
-	url: "https://github.com/Wanwire/FloxcoreTun2SocksKit/releases/download/2025.1.7/HevSocks5Tunnel.xcframework.zip",
-	checksum: "05a712d2e66e9c9dec98a0315f61e6761c01cbe7824c5114482bd169aeedb501"
+	url: "https://github.com/Wanwire/FloxcoreTun2SocksKit/releases/download/2025.6.1/HevSocks5Tunnel.xcframework.zip",
+	checksum: "0d4549f743a86b2136ff21623ae066bf143555db63433df101bbbaa92657810c"
     )
   ]
 )
