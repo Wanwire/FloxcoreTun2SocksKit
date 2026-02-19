@@ -23,12 +23,13 @@ jobs:
         run: make
 
       - name: Archive xcframework
-        run: zip -r build/HevSocks5Tunnel.xcframework.zip build/Tun2SocksKit/xcframeworks/HevSocks5Tunnel.xcframework
+        run: |
+          cd build/Tun2SocksKit/xcframeworks
+          zip -r ../../HevSocks5Tunnel.xcframework.zip HevSocks5Tunnel.xcframework
 
       - name: Fix up Package.swift
         run: |
-          export TEMP=`shasum -a 256 ./build/HevSocks5Tunnel.xcframework.zip`
-          export CHECKSUM=${TEMP:0:64}
+          export CHECKSUM=`swift package compute-checksum ./build/HevSocks5Tunnel.xcframework.zip`
           cd Templates
           sed -i ".bak" "s/VERSION/${{ github.event.inputs.version }}/g" Package.template
           sed -i ".bak" "s/CHECKSUM/${CHECKSUM}/g" Package.template
