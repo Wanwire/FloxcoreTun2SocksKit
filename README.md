@@ -22,6 +22,7 @@ misc:
   log-file: stderr
   log-level: debug
   limit-nofile: 65535
+  max-session-count: 1200
 ```
 
 ### Usage
