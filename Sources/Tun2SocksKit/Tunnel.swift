@@ -78,7 +78,7 @@ public enum Socks5Tunnel {
             // before we got to run. Report failure instead of crashing.
             return -1
         }
-        return hev_socks5_tunnel_main_from_str(config.cString(using: .utf8), UInt32(config.count), fileDescriptor)
+        return hev_socks5_tunnel_main_from_str(config.cString(using: .utf8), UInt32(config.utf8.count), fileDescriptor)
     }
 
     public static func quit() {
