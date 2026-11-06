@@ -37,6 +37,7 @@
 #include "hev-config-const.h"
 #include "hev-socks5-session-tcp.h"
 #include "hev-socks5-session-udp.h"
+#include "hev-socks5-session-dns.h"
 
 #include "hev-socks5-tunnel.h"
 
@@ -234,6 +235,34 @@ exit:
     udp_remove (pcb);
 }
 
+/* Starts the session that sends all queries to the DNS address over one Socks5
+ * UDP association */
+static HevSocks5SessionDNS *
+hev_socks5_tunnel_start_dns_session (void)
+{
+    HevSocks5SessionDNS *dns;
+    HevListNode *node;
+    HevTask *task;
+
+    dns = hev_socks5_session_dns_new (&mutex);
+    if (!dns)
+        return NULL;
+
+    task = hev_task_new (hev_config_get_misc_task_stack_size ());
+    if (!task) {
+        hev_object_unref (HEV_OBJECT (dns));
+        return NULL;
+    }
+
+    hev_socks5_session_set_task (HEV_SOCKS5_SESSION (dns), task);
+    node = hev_socks5_session_get_node (HEV_SOCKS5_SESSION (dns));
+    hev_socks5_tunnel_insert_session (node);
+    hev_task_run (task, hev_socks5_session_task_entry, dns);
+    hev_task_wakeup (task_lwip_timer);
+
+    return dns;
+}
+
 static void
 udp_recv_handler (void *arg, struct udp_pcb *pcb, struct pbuf *p,
                   const ip_addr_t *addr, u16_t port)
@@ -255,6 +284,19 @@ udp_recv_handler (void *arg, struct udp_pcb *pcb, struct pbuf *p,
         int fport = hev_config_get_mapdns_port ();
         if (fport == port && faddr == ip_2_ip4 (addr)->addr) {
             udp_recv (pcb, dns_recv_handler, dns);
+            return;
+        }
+    }
+
+    if (hev_config_get_misc_dns_shared_address () && port == 53 &&
+        addr->type == IPADDR_TYPE_V4 &&
+        ip_2_ip4 (addr)->addr == hev_config_get_misc_dns_shared_address ()) {
+        HevSocks5SessionDNS *shared = hev_socks5_session_dns_get_shared ();
+
+        if (!shared)
+            shared = hev_socks5_tunnel_start_dns_session ();
+        if (shared) {
+            hev_socks5_session_dns_add_pcb (shared, pcb);
             return;
         }
     }

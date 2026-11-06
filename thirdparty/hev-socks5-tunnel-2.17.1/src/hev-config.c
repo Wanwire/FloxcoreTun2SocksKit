@@ -46,6 +46,7 @@ static int udp_copy_buffer_nums;
 static int connect_timeout;
 static int tcp_read_write_timeout;
 static int udp_read_write_timeout;
+static int dns_shared_address;
 static int limit_nofile;
 static int log_level;
 
@@ -374,6 +375,8 @@ hev_config_parse_misc (yaml_document_t *doc, yaml_node_t *base)
             tcp_rw_timeout = strtoul (value, NULL, 10);
         else if (0 == strcmp (key, "udp-read-write-timeout"))
             udp_rw_timeout = strtoul (value, NULL, 10);
+        else if (0 == strcmp (key, "dns-shared-address"))
+            inet_pton (AF_INET, value, &dns_shared_address);
         else if (0 == strcmp (key, "pid-file"))
             strncpy (pid_file, value, 1024 - 1);
         else if (0 == strcmp (key, "log-file"))
@@ -484,6 +487,7 @@ hev_config_reset (void)
     connect_timeout = 10000;
     tcp_read_write_timeout = 300000;
     udp_read_write_timeout = 60000;
+    dns_shared_address = 0;
     limit_nofile = 65535;
     log_level = HEV_LOGGER_WARN;
 }
@@ -673,6 +677,12 @@ int
 hev_config_get_misc_udp_copy_buffer_nums (void)
 {
     return udp_copy_buffer_nums;
+}
+
+int
+hev_config_get_misc_dns_shared_address (void)
+{
+    return dns_shared_address;
 }
 
 int

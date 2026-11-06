@@ -52,6 +52,9 @@ int hev_config_get_misc_task_stack_size (void);
 int hev_config_get_misc_tcp_buffer_size (void);
 int hev_config_get_misc_udp_recv_buffer_size (void);
 int hev_config_get_misc_udp_copy_buffer_nums (void);
+/* The DNS server address (IPv4, network order) whose queries share one Socks5
+ * UDP association, or 0 */
+int hev_config_get_misc_dns_shared_address (void);
 int hev_config_get_misc_max_session_count (void);
 int hev_config_get_misc_connect_timeout (void);
 int hev_config_get_misc_tcp_read_write_timeout (void);
