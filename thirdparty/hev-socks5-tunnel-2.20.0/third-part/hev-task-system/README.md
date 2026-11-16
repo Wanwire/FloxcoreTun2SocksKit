@@ -1,0 +1,131 @@
+# HevTaskSystem
+
+[![status](https://github.com/heiher/hev-task-system/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/heiher/hev-task-system)
+
+HevTaskSystem is a simple, lightweight multi-task system (coroutines) that
+runs on top of native threads.
+
+Each thread that initializes the task system owns an independent scheduler
+with an I/O reactor and timer. Any number of tasks can be attached to it,
+and they run cooperatively: when a task yields, sleeps, or waits for I/O,
+the scheduler picks the highest-priority runnable task and switches context
+to it. Tasks within one task system share the memory space, file
+descriptors, and other resources of the enclosing native thread, while each
+task keeps its private task structure (#HevTask) and a stack allocated on
+the heap.
+
+Within a task, you can allocate memory from the heap, read and write data,
+and perform I/O operations in a synchronous style - blocking the current
+task only, never the underlying thread or the other tasks.
+
+## Features
+
+* Simple/lightweight task.
+* I/O operations wrapper.
+* Inter-task synchronous. (Mutex/Condition)
+* Inter-task communications. (Channel)
+* Slice-based memory allocator.
+* Call on new stack.
+* Stack memory management. (Release unused stack pages)
+* Multi-thread support.
+* Multi-platform support. (Linux/BSD/macOS/Windows)
+
+## How to Build
+
+### Unix
+
+```bash
+git clone https://gitlab.com/hev/hev-task-system
+cd hev-task-system
+make
+
+# Build shared library
+make shared
+
+# Link with librt (only for glibc versions before 2.17)
+make LDFLAGS=-lrt
+
+# Disable stack overflow detection
+make ENABLE_STACK_OVERFLOW_DETECTION=0
+
+# Set stack backend to heap (Recommended for 32-bit)
+make CONFIG_STACK_BACKEND=STACK_HEAP
+
+# Disable sliced memory allocator
+make ENABLE_MEMALLOC_SLICE=0
+
+# Disable I/O splice by splice syscall (for old Linux kernel)
+make ENABLE_IO_SPLICE_SYSCALL=0
+
+# Set scheduler I/O poll interval in nanoseconds (default: 50000, 0 polls on every schedule pass)
+make CONFIG_SCHED_IO_POLL_INTERVAL=0
+
+# Demos
+make apps
+
+# Tests
+make tests
+
+# Benchmarks
+make benches
+```
+
+### Android
+
+```bash
+mkdir hev-task-system
+cd hev-task-system
+git clone https://gitlab.com/hev/hev-task-system jni
+ndk-build
+```
+
+### iOS and MacOS
+
+```bash
+git clone https://gitlab.com/hev/hev-task-system
+cd hev-task-system
+# will generate HevTaskSystem.xcframework
+./build-apple.sh
+```
+
+### Windows (MSVC + Clang)
+
+The same `Makefile` builds natively with clang targeting MSVC. Open a Visual
+Studio developer prompt (clang from the VS LLVM component or `PATH`), make
+sure GNU make and a POSIX `sh.exe` (for example the one of Git for Windows,
+`C:\Program Files\Git\usr\bin`) are on `PATH`, then:
+
+```bat
+make
+make tests
+make ARCH=x86 tests
+make ARCH=arm64 static apps
+make shared
+```
+
+`ARCH` is `x64` (default), `x86` or `arm64` and must match the developer
+prompt architecture. The static library is `bin/hev-task-system.lib`; the
+shared library is `bin/hev-task-system.dll` with the import library
+`bin/hev-task-system.dll.lib`. Link programs with `/CETCOMPAT:NO` on x86/x64, since coroutine switching is
+incompatible with the CET shadow stack.
+
+## Demos
+
+1. [simple](https://gitlab.com/hev/hev-task-system/blob/main/apps/simple.c)
+1. [channel](https://gitlab.com/hev/hev-task-system/blob/main/apps/channel.c)
+1. [timeout](https://gitlab.com/hev/hev-task-system/blob/main/apps/timeout.c)
+1. [wakeup](https://gitlab.com/hev/hev-task-system/blob/main/apps/wakeup.c)
+1. [echo-server](https://gitlab.com/hev/hev-task-system/blob/main/apps/echo-server.c)
+1. [call](https://gitlab.com/hev/hev-task-system/blob/main/apps/call.c)
+
+## Contributors
+
+* **hev** - https://hev.cc
+* **mike wang** - https://github.com/mikewang000000
+* **mmjvox** - https://github.com/mmjvox
+* **sergey larin** - https://github.com/cerg2010cerg2010
+* **yujinpan** - https://github.com/yujinpan
+
+## License
+
+MIT
